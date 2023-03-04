@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -22,9 +23,18 @@ public class MyAdapter extends ArrayAdapter<ToDoObject> {
     @Override
     public View getView(int position, View v, ViewGroup parent) {
 
-        if(v ==null){
+        if (v == null) {
             v = inflater.inflate(R.layout.list_element, parent, false);
         }
-        return super.getView(position, v, parent);
+
+        ToDoObject toDoObject = getItem(position);
+
+        TextView titleTextView = v.findViewById(R.id.title);
+        TextView dateTextView = v.findViewById(R.id.date);
+
+        titleTextView.setText(toDoObject.getTitle());
+        dateTextView.setText(toDoObject.getDate());
+
+        return v;
     }
 }
