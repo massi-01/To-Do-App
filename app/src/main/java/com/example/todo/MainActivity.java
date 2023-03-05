@@ -1,8 +1,7 @@
 package com.example.todo;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.SearchManager;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,7 +10,9 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         cursor.close();
-        listView = (ListView) findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
 
         myAdapter = new MyAdapter(this, R.layout.list_element, toDoList);
 
@@ -57,9 +58,10 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        myAdapter.setTitleClickListener(this::startSearch);
+
         listView.setAdapter(myAdapter);
     }
-
 
 
     public void pressedAddButton(View view) {
@@ -102,5 +104,14 @@ public class MainActivity extends AppCompatActivity {
     public void pressedDeleteButton(ToDoObject todo) {
         sqLiteDatabase.execSQL("DELETE FROM TODO WHERE id = '" + todo.getId() + "';");
         toDoList.remove(todo);
+    }
+
+    public void startSearch(String title) {
+        Intent i = new Intent(Intent.ACTION_WEB_SEARCH)
+                .putExtra(
+                    SearchManager.QUERY,
+                    title
+                );
+        startActivity(i);
     }
 }

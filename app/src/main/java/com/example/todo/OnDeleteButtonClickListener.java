@@ -1,5 +1,5 @@
 package com.example.todo;
 
-public interface OnItemClickListener {
+public interface OnDeleteButtonClickListener {
     void onClick(ToDoObject todo);
 }
